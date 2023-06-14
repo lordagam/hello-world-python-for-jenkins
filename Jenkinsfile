@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('checkout') {
       steps {
-        git(url: 'https://github.com/lidorg-dev/hello-world-python.git', branch: 'master')
+        git(url: 'https://github.com/lordagam/hello-world-python-for-jenkins.git', branch: 'master')
       }
     }
 
@@ -16,7 +16,7 @@ pipeline {
       parallel {
         stage('Build') {
           steps {
-            sh 'docker build -t lidorlg/hello-world-python:$BUILD_NUMBER .'
+            sh 'docker build -t lordagam/hello-world-python:$BUILD_NUMBER .'
           }
         }
 
@@ -31,7 +31,7 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh 'docker run -itd --name hello-world -p 8080:8080 lidorlg/hello-world-python:$BUILD_NUMBER'
+        sh 'docker run -itd --name hello-world -p 8080:8080 lordagam/hello-world-python:$BUILD_NUMBER'
         sleep 5
         sh 'curl localhost:8080'
         sh 'docker stop hello-world && docker rm hello-world'
@@ -44,7 +44,7 @@ pipeline {
           steps {
             withCredentials(bindings: [usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'pass', usernameVariable: 'user')]) {
               sh "docker login -u $user -p $pass"
-              sh 'docker push lidorlg/hello-world-python:$BUILD_NUMBER'
+              sh 'docker push lordagam//hello-world-python:$BUILD_NUMBER'
             }
 
           }
