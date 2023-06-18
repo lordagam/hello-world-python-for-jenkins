@@ -44,6 +44,7 @@ pipeline {
           steps {
             withCredentials(bindings: [usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'pass', usernameVariable: 'user')]) {
               sh "docker login -u $user -p $pass"
+              sleep 5
               sh "docker push lordagam//hello-world-python:$BUILD_NUMBER"
             }
 
